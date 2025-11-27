@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小兔鲜儿 - 首页</title>
+    <link rel="stylesheet" href="style.css">
+    <style>/* --- 基础重置 --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Microsoft YaHei", Arial, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+.container {
+    width: 1240px;
+    margin: 0 auto;
+}
+
+/* --- 1. 顶部黑色导航栏 --- */
+.top-nav {
+    background-color: #333;
+    height: 30px;
+    line-height: 30px;
+    color: #b0b0b0;
+    font-size: 12px;
+}
+
+.top-links {
+    float: right;
+}
+
+.top-links a:hover { color: #27BA9B; }
+.divider { margin: 0 10px; color: #666; }
+
+/* --- 2. 头部区域 --- */
+.main-header {
+    background: #fff;
+    height: 100px;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.logo h1 {
+    color: #27BA9B; /* 小兔鲜儿绿 */
+    font-size: 24px;
+    margin-right: 40px;
+    width: 200px;
+    /* 如果用图片Logo，这里设为 text-indent: -9999px; */
+}
+
+.main-nav {
+    flex: 1;
+}
+
+.main-nav a {
+    margin-right: 25px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.main-nav a:hover, .main-nav a.active {
+    color: #27BA9B;
+}
+
+/* --- 搜索栏与购物车 --- */
+.search-cart {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.search-box {
+    position: relative;
+    width: 260px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 10px;
+    top: 8px;
+    color: #999;
+    font-style: normal;
+}
+
+/* *** 核心需求：搜索框样式 *** */
+.custom-search {
+    width: 100%;
+    height: 36px;
+    padding-left: 35px;
+    border: 1px solid #e7e7e7;
+    border-radius: 18px;
+    background: #f8f8f8;
+    outline: none;
+    font-size: 14px;
+}
+
+/* 渐变文字效果实现 - 针对 placeholder */
+.custom-search::placeholder {
+    /* 定义渐变色：从左到右 */
+    background-image: linear-gradient(to right, #ff7e5f, #feb47b, #27BA9B);
+    /* 将背景裁剪到文字上 */
+    -webkit-background-clip: text;
+    background-clip: text;
+    /* 文字颜色设为透明，透出背景 */
+    color: transparent;
+    font-weight: bold;
+    opacity: 1; /* 修正Firefox默认透明度 */
+}
+
+.cart-box {
+    position: relative;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.cart-count {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background: #e26237;
+    color: white;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 10px;
+}
+
+/* --- 3. 轮播区 --- */
+.banner-area {
+    margin-top: 20px;
+    height: 500px;
+}
+
+.banner-container {
+    height: 100%;
+    position: relative;
+    display: flex;
+}
+
+/* 左侧分类 */
+.category-menu {
+    width: 250px;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    z-index: 2;
+    padding: 20px 0;
+}
+
+.category-menu li {
+    padding: 0 20px;
+    height: 46px;
+    line-height: 46px;
+}
+
+.category-menu li:hover {
+    background: #27BA9B;
+}
+
+.category-menu a {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+/* 右侧大图 */
+.hero-slider {
+    flex: 1;
+    background: #e0e0e0;
+    position: relative;
+    overflow: hidden;
+}
+
+.banner-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.slide-content {
+    position: absolute;
+    top: 20%;
+    left: 100px;
+    color: #333;
+}
+.slide-content h2 { color: #888; font-weight: normal; margin-bottom: 10px; }
+.slide-content h1 { font-size: 48px; margin-bottom: 20px; color: #333; }
+
+/* --- 4 & 5. 商品板块 --- */
+.goods-section {
+    padding: 40px 0;
+    background: #fff;
+    margin-bottom: 20px;
+}
+
+.goods-section.bg-gray {
+    background: #f5f5f5; /* 人气推荐部分背景稍灰，或者你可以改成白色 */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 20px;
+}
+
+.section-header h3 {
+    font-size: 28px;
+    font-weight: normal;
+}
+
+.section-header small {
+    font-size: 16px;
+    color: #999;
+    margin-left: 20px;
+}
+
+.view-all {
+    color: #999;
+    font-size: 16px;
+}
+
+.goods-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.goods-card {
+    background: #fff;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.goods-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.goods-card img {
+    width: 160px;
+    height: 160px;
+    margin-bottom: 10px;
+}
+
+.goods-info h4 {
+    font-size: 16px;
+    margin-bottom: 5px;
+    font-weight: normal;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.price {
+    color: #cf4444;
+    font-size: 18px;
+}
+
+.sub-desc {
+    color: #999;
+    font-size: 14px;
+}
+
+.tag {
+    position: absolute;
+    left: 0;
+    top: 20px;
+    background: #27BA9B;
+    color: #fff;
+    padding: 2px 10px;
+    border-radius: 0 15px 15px 0;
+    font-size: 12px;
+}</style>
+    </head>
+<body>
+
+    <div class="top-nav">
+        <div class="container">
+            <div class="top-links">
+                <a href="#">请先登录</a>
+                <span class="divider">|</span>
+                <a href="#">免费注册</a>
+                <span class="divider">|</span>
+                <a href="#">我的订单</a>
+                <span class="divider">|</span>
+                <a href="#">会员中心</a>
+                <span class="divider">|</span>
+                <a href="#">帮助中心</a>
+                <span class="divider">|</span>
+                <a href="#">在线客服</a>
+                <span class="divider">|</span>
+                <a href="#">手机版</a>
+            </div>
+        </div>
+    </div>
+
+    <header class="main-header">
+        <div class="container header-content">
+            <div class="logo">
+                <h1>小兔鲜儿</h1>
+                </div>
+
+            <nav class="main-nav">
+                <a href="#" class="active">首页</a>
+                <a href="#">生鲜</a>
+                <a href="#">美食</a>
+                <a href="#">餐厨</a>
+                <a href="#">电器</a>
+                <a href="#">居家</a>
+                <a href="#">洗护</a>
+                <a href="#">孕婴</a>
+                <a href="#">服装</a>
+            </nav>
+
+            <div class="search-cart">
+                <div class="search-box">
+                    <i class="search-icon">🔍</i>
+                    <input type="text" class="custom-search" placeholder="吕海泉 25216950413">
+                </div>
+                <div class="cart-box">
+                    🛒
+                    <span class="cart-count">22</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="banner-area">
+        <div class="container banner-container">
+            <aside class="category-menu">
+                <ul>
+                    <li><a href="#">生鲜果蔬 水果 蔬菜 <span>&gt;</span></a></li>
+                    <li><a href="#">美食推荐 面包 干果 <span>&gt;</span></a></li>
+                    <li><a href="#">数码电子 手机 电脑 <span>&gt;</span></a></li>
+                    <li><a href="#">家庭电器 电视 冰箱 <span>&gt;</span></a></li>
+                    <li><a href="#">厨房用品 厨房电器 餐具 <span>&gt;</span></a></li>
+                    <li><a href="#">居家生活 床品 四件套 <span>&gt;</span></a></li>
+                    <li><a href="#">洗护美妆 洗发 洁面 美妆 <span>&gt;</span></a></li>
+                    <li><a href="#">孕婴用品 奶粉 玩具 服装 <span>&gt;</span></a></li>
+                    <li><a href="#">服饰穿搭 女装 男装 <span>&gt;</span></a></li>
+                    <li><a href="#">日用杂货 户外 图书 <span>&gt;</span></a></li>
+                </ul>
+            </aside>
+
+            <div class="hero-slider">
+                <div class="slide-content">
+    
+                 
+                </div>
+                <img src="./uploads/首页-自然造物 Made in Nature-淘宝网.png" alt="Banner" class="banner-img">
+            </div>
+        </div>
+    </section>
+
+    <section class="goods-section">
+        <div class="container">
+            <div class="section-header">
+                <h3>新鲜好物 <small>新鲜出炉 品质靠谱</small></h3>
+                <a href="#" class="view-all">查看全部 &gt;</a>
+            </div>
+            <div class="goods-grid">
+                <div class="goods-card">
+                    <div class="tag">新品</div>
+                    <img src="./uploads/" alt="商品">
+                    <div class="goods-info">
+                        <h4>莫兰迪色 KN95级</h4>
+                        <p class="price">¥ 29.00</p>
+                    </div>
+                </div>
+                <div class="goods-card">
+                    <img src="https://via.placeholder.com/200x200?text=Product+2" alt="商品">
+                    <div class="goods-info">
+                        <h4>实木收纳盒</h4>
+                        <p class="price">¥ 128.00</p>
+                    </div>
+                </div>
+                <div class="goods-card">
+                    <img src="https://via.placeholder.com/200x200?text=Product+3" alt="商品">
+                    <div class="goods-info">
+                        <h4>复古笔记本</h4>
+                        <p class="price">¥ 19.90</p>
+                    </div>
+                </div>
+                <div class="goods-card">
+                    <img src="https://via.placeholder.com/200x200?text=Product+4" alt="商品">
+                    <div class="goods-info">
+                        <h4>落地灯</h4>
+                        <p class="price">¥ 299.00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="goods-section bg-gray">
+        <div class="container">
+            <div class="section-header">
+                <h3>人气推荐 <small>人气爆款 不容错过</small></h3>
+                <a href="#" class="view-all">查看全部 &gt;</a>
+            </div>
+            <div class="goods-grid">
+                <div class="goods-card">
+                    <img src="https://via.placeholder.com/200x200/ffeedd?text=Book" alt="商品">
+                    <div class="goods-info">
+                        <h4>特惠推荐</h4>
+                        <p class="sub-desc">我猜得到 你的需要</p>
+                    </div>
+                </div>
+                <div class="goods-card">
+                    <img src="https://via.placeholder.com/200x200/ddeeff?text=Phone" alt="商品">
+                    <div class="goods-info">
+                        <h4>爆款推荐</h4>
+                        <p class="sub-desc">人气好物推荐</p>
+                    </div>
+                </div>
+                <div class="goods-card">
+                    <img src="https://via.placeholder.com/200x200/eeddff?text=Oil" alt="商品">
+                    <div class="goods-info">
+                        <h4>节日礼品一站买全</h4>
+                        <p class="sub-desc">编辑尽心整理推荐</p>
+                    </div>
+                </div>
+                <div class="goods-card">
+                    <img src="https://via.placeholder.com/200x200/ffdddd?text=Flower" alt="商品">
+                    <div class="goods-info">
+                        <h4>鲜花园艺</h4>
+                        <p class="sub-desc">给生活增加仪式感</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer style="height: 100px; background: #333; margin-top: 40px;"></footer>
+
+</body>
+</html>
